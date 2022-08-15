@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.flybirds.web.jackson.config.FlybirdsJacksonAutoConfiguration,\
+  com.flybirds.web.web.config.FlybirdsWebAutoConfiguration

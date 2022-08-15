@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.oauthModule.system.mapper.OauthAppDetailsMapper">
+    
+    <resultMap type="OauthAppDetails" id="OauthAppDetailsResult">
+        <result property="id"    column="id"    />
+        <result property="appName"    column="app_name"    />
+        <result property="appLogo"    column="app_logo"    />
+        <result property="appNote"    column="app_note"    />
+        <result property="appIndex"    column="app_index"    />
+        <result property="appClientId"    column="app_client_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createName"    column="create_name"    />
+        <result property="updateName"    column="update_name"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectOauthAppDetailsVo">
+        select id, app_name, app_logo, app_note, app_index, app_client_id, create_time, update_time, create_name, update_name, del_flag from oauth_app_details
+    </sql>
+
+    <select id="selectOauthAppDetailsList" parameterType="OauthAppDetails" resultMap="OauthAppDetailsResult">
+        <include refid="selectOauthAppDetailsVo"/>
+        <where>  
+            <if test="appName != null  and appName != ''"> and app_name like concat('%', #{appName}, '%')</if>
+            <if test="appLogo != null  and appLogo != ''"> and app_logo = #{appLogo}</if>
+            <if test="appNote != null  and appNote != ''"> and app_note = #{appNote}</if>
+            <if test="appIndex != null  and appIndex != ''"> and app_index = #{appIndex}</if>
+            <if test="appClientId != null  and appClientId != ''"> and app_client_id = #{appClientId}</if>
+            <if test="createName != null  and createName != ''"> and create_name like concat('%', #{createName}, '%')</if>
+            <if test="updateName != null  and updateName != ''"> and update_name like concat('%', #{updateName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectOauthAppDetailsById" parameterType="Long" resultMap="OauthAppDetailsResult">
+        <include refid="selectOauthAppDetailsVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOauthAppDetails" parameterType="OauthAppDetails">
+        insert into oauth_app_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="appName != null">app_name,</if>
+            <if test="appLogo != null">app_logo,</if>
+            <if test="appNote != null">app_note,</if>
+            <if test="appIndex != null">app_index,</if>
+            <if test="appClientId != null">app_client_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="updateName != null">update_name,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="appName != null">#{appName},</if>
+            <if test="appLogo != null">#{appLogo},</if>
+            <if test="appNote != null">#{appNote},</if>
+            <if test="appIndex != null">#{appIndex},</if>
+            <if test="appClientId != null">#{appClientId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="updateName != null">#{updateName},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOauthAppDetails" parameterType="OauthAppDetails">
+        update oauth_app_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="appName != null">app_name = #{appName},</if>
+            <if test="appLogo != null">app_logo = #{appLogo},</if>
+            <if test="appNote != null">app_note = #{appNote},</if>
+            <if test="appIndex != null">app_index = #{appIndex},</if>
+            <if test="appClientId != null">app_client_id = #{appClientId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOauthAppDetailsById" parameterType="Long">
+        delete from oauth_app_details where id = #{id}
+    </delete>
+
+    <delete id="deleteOauthAppDetailsByIds" parameterType="String">
+        delete from oauth_app_details where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

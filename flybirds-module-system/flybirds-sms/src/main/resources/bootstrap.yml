@@ -1,0 +1,49 @@
+server:
+  port: 9905
+
+platform:
+  info:
+    server-nacos-addr: 192.168.144.129
+    # 数据库主库
+    datasource-master: young-flybirds-sms
+    # 数据库从库
+    datasource-salve01:
+    datasource-salve02:
+
+# 日志文件配置
+logging:
+  file:
+    name: logs/${spring.application.name}/info.log
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  servlet:
+    multipart:
+      max-file-size: 10MB #文件上传大小
+      max-request-size: 10MB #接口数据请求大小
+  application:
+    name: young-flybirds-sms
+  #排除原生的druid配置不然会报错
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: ${platform.info.server-nacos-addr}:8848
+      config:
+        # 配置中心地址
+        server-addr: ${platform.info.server-nacos-addr}:8848
+        # 配置文件格式
+        file-extension: yml
+        #实时刷新
+        refresh-enabled: true
+        # 共享配置
+        ext-config:
+          - data-id: young-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: DEFAULT_GROUP
+            refresh: true

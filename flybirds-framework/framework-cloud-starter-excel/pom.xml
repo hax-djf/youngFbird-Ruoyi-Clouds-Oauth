@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flybirds-framework</artifactId>
+        <groupId>com.flybirds</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>会飞的小鸟[excel数据表格导出服务]excel</description>
+    <artifactId>framework-cloud-starter-excel</artifactId>
+
+    <dependencies>
+        <!-- **************************  {Flybirds Source Di} ************************** -->
+        <!-- framework-cloud-starter-dict 字典数据 -->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-dict</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

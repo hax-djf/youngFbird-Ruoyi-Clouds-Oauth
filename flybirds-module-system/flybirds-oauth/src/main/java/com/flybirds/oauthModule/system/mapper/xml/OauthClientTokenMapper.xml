@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.oauthModule.system.mapper.OauthClientTokenMapper">
+    
+    <resultMap type="OauthClientToken" id="OauthClientTokenResult">
+        <result property="tokenId"    column="token_id"    />
+        <result property="token"    column="token"    />
+        <result property="authenticationId"    column="authentication_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectOauthClientTokenVo">
+        select token_id, token, authentication_id, user_name, client_id, create_time from oauth_client_token
+    </sql>
+
+    <select id="selectOauthClientTokenList" parameterType="OauthClientToken" resultMap="OauthClientTokenResult">
+        <include refid="selectOauthClientTokenVo"/>
+        <where>  
+            <if test="tokenId != null  and tokenId != ''"> and token_id = #{tokenId}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="clientId != null  and clientId != ''"> and client_id = #{clientId}</if>
+        </where>
+    </select>
+    
+    <select id="selectOauthClientTokenByAuthenticationId" parameterType="String" resultMap="OauthClientTokenResult">
+        <include refid="selectOauthClientTokenVo"/>
+        where authentication_id = #{authenticationId}
+    </select>
+        
+    <insert id="insertOauthClientToken" parameterType="OauthClientToken">
+        insert into oauth_client_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tokenId != null">token_id,</if>
+            <if test="token != null">token,</if>
+            <if test="authenticationId != null">authentication_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="clientId != null">client_id,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tokenId != null">#{tokenId},</if>
+            <if test="token != null">#{token},</if>
+            <if test="authenticationId != null">#{authenticationId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="clientId != null">#{clientId},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOauthClientToken" parameterType="OauthClientToken">
+        update oauth_client_token
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tokenId != null">token_id = #{tokenId},</if>
+            <if test="token != null">token = #{token},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="clientId != null">client_id = #{clientId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where authentication_id = #{authenticationId}
+    </update>
+
+    <delete id="deleteOauthClientTokenByAuthenticationId" parameterType="String">
+        delete from oauth_client_token where authentication_id = #{authenticationId}
+    </delete>
+
+    <delete id="deleteOauthClientTokenByAuthenticationIds" parameterType="String">
+        delete from oauth_client_token where authentication_id in 
+        <foreach item="authenticationId" collection="array" open="(" separator="," close=")">
+            #{authenticationId}
+        </foreach>
+    </delete>
+</mapper>

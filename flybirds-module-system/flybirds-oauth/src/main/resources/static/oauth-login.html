@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+
+    <script>
+       //发送Ajax请求
+//        function login0() {
+//            debugger
+//            var url = window.location.hostname + window.location.port;
+//            alert($('#windupload').serialize());
+//            console.log($('#windupload').serialize())
+//            $.ajax('/login', {
+//                data: $('#windupload').serialize(),
+//                headers: {	// 头部信息
+//                    "Tenant-Id": '1'
+//                },
+//                type: "POST",
+//                success: function (response) {
+//                    console.log('ajax: ', response);
+//                }
+//            }).done(function (response) {
+//                // 结果回调
+//                console.log('done', response);
+//            })
+//        }
+       //租户名称失去事件
+       function tenantOnblur(){
+           var name = $('input[name="tenant_name"]').val()
+           $.get("http://localhost:9907/tenant/open/get-id-by-name",{name:name},function(res,status){
+               if(res.code == 200){
+                   //设置值
+                   $('input[name="tenant_id"]').val(res.data);
+               }else{
+                   alert("租户: " + name + "不存在");
+               }
+
+           });
+
+       }
+    </script>
+
+</head>
+
+<style>
+    .login-container {
+        margin: 50px;
+        width: 90%;
+    }
+
+    .form-container {
+        margin: 0px auto;
+        width: 50%;
+        text-align: center;
+        box-shadow: 1px 1px 10px #888888;
+        height: 300px;
+        padding: 5px;
+    }
+
+    input {
+        margin-top: 10px;
+        width: 250px;
+        height: 30px;
+        border-radius: 3px;
+        border: 1px #E9686B solid;
+        padding-left: 2px;
+
+    }
+
+
+    .btn {
+        width: 250px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 3px;
+        background-color: #E9686B;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+
+    .title{
+        margin-top: 5px;
+        font-size: 18px;
+        color: #E9686B;
+    }
+</style>
+
+<body>
+<div class="login-container">
+    <div class="form-container">
+        <form class="form-signin" method="post" action="/login">
+            <h2 class="form-signin-heading">FBIRD 用户授权登录</h2>
+            <!--<p>-->
+                <!--<label for="tenant_id" class="sr-only">租户名称</label>-->
+                <!--<input type="hidden" id="tenant_id" name="tenant_id" class="form-control">-->
+                <!--<input type="text" id="tenant_name" name="tenant_name" onblur="tenantOnblur()" class="form-control" placeholder="租户名称" required>-->
+            <!--</p>-->
+            <p>
+                <label for="username" class="sr-only">用户</label>
+                <input type="text" id="username" name="username" class="form-control" placeholder="用户名" required autofocus>
+            </p>
+            <p>
+                <label for="password" class="sr-only">密码</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="密码" required>
+            </p>
+            <input name="account_login_channel" value="2" class="form-control" type="hidden" >
+            <button class="btn btn-lg btn-primary btn-block" type="submit">登 &nbsp;&nbsp; 录</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

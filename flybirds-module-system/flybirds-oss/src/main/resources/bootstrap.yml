@@ -1,0 +1,44 @@
+server:
+  port: 9904
+
+platform:
+  info:
+    server-nacos-addr: 192.168.144.129
+    server-sentinel-addr: 192.168.144.129
+    # 数据库主库
+    datasource-master: young-flybirds-oss
+    # 数据库从库
+    datasource-salve01:
+    datasource-salve02:
+
+# Spring
+spring:
+  main: #允许重复的命名操作
+    allow-bean-definition-overriding: true
+  application:
+    # 应用名称
+    name: young-flybirds-oss
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.144.129:8848
+      config:
+        # 配置中心地址
+        server-addr: 192.168.144.129:8848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        ext-config:
+          - data-id: young-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: DEFAULT_GROUP
+            refresh: true
+
+
+# 日志文件配置
+logging:
+  file:
+    name: logs/${spring.application.name}/info.log

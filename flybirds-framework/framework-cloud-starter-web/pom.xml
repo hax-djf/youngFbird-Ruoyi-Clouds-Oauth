@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flybirds-framework</artifactId>
+        <groupId>com.flybirds</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>framework-cloud-starter-web</artifactId>
+    <name>${artifactId}</name>
+    <description>会飞的小鸟[web]扩展组件</description>
+
+    <dependencies>
+
+        <!-- **************************  {Open Source Di} ************************** -->
+        <!-- spring-boot-starter-web  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- spring-security-core -->
+        <!-- 设置为 provided，编译和测试中使用 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- spring-security-解析 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- **************************  {Flybirds Source Di} ************************** -->
+        <!-- api-system 组件-->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>api-system</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+</project>

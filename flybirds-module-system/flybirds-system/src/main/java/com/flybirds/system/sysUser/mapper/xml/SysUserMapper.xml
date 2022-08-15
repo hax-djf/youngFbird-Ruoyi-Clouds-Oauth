@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.system.sysUser.mapper.SysUserMapper">
+
+	<!-- oauth - 需要的用户基本数据 -->
+	<resultMap type="SysUser" id="SysUserResult">
+		<id     property="userId"       column="user_id"      />
+		<result property="deptId"       column="dept_id"      />
+		<result property="userName"     column="user_name"    />
+		<result property="nickName"     column="nick_name"    />
+		<result property="email"        column="email"        />
+		<result property="phonenumber"  column="phonenumber"  />
+		<result property="sex"          column="sex"          />
+		<result property="avatar"       column="avatar"       />
+		<result property="passWord"     column="pass_word"     />
+		<result property="status"       column="status"       />
+		<result property="delFlag"      column="del_flag"     />
+		<result property="loginIp"      column="login_ip"     />
+		<result property="loginDate"    column="login_date"   />
+		<result property="remark"       column="remark"       />
+		<result property="tenantId"     column="tenant_id"/>
+		<result property="locks"     column="locks"/>
+		<result property="onlineNumber" column="online_number"/>
+		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
+	</resultMap>
+
+	<!-- profile 需要的详情用户信息-->
+	<resultMap type="SysUser" id="SysUserResultDetail">
+		<id     property="userId"       column="user_id"      />
+		<result property="deptId"       column="dept_id"      />
+		<result property="userName"     column="user_name"    />
+		<result property="nickName"     column="nick_name"    />
+		<result property="email"        column="email"        />
+		<result property="phonenumber"  column="phonenumber"  />
+		<result property="sex"          column="sex"          />
+		<result property="avatar"       column="avatar"       />
+		<result property="passWord"     column="pass_word"     />
+		<result property="status"       column="status"       />
+		<result property="delFlag"      column="del_flag"     />
+		<result property="loginIp"      column="login_ip"     />
+		<result property="loginDate"    column="login_date"   />
+		<result property="createName"    column="create_name"    />
+		<result property="createUser"    column="create_user"    />
+		<result property="createTime"    column="create_time"    />
+		<result property="updateName"    column="update_name"    />
+		<result property="updateTime"    column="update_time"    />
+		<result property="updateUser"    column="update_user"    />
+		<result property="remark"       column="remark"       />
+		<result property="tenantId"     column="tenant_id"/>
+		<result property="locks"     column="locks"/>
+		<result property="onlineSync" column="online_sync"/>
+		<result property="onlineNumber" column="online_number"/>
+		<result property="regChannel" column="reg_channel" jdbcType="TINYINT" typeHandler="com.flybirds.mybatis.core.handler.DefaultEnumTypeHandler"/>
+		<result property="lastLoginChannel" column="last_login_channel" jdbcType="TINYINT" typeHandler="com.flybirds.mybatis.core.handler.DefaultEnumTypeHandler"/>
+		<result property="userType" column="user_type" jdbcType="TINYINT" typeHandler="com.flybirds.mybatis.core.handler.DefaultEnumTypeHandler"/>
+		<association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+	</resultMap>
+
+	<resultMap id="deptResult" type="SysDept">
+		<id     property="deptId"   column="dept_id"     />
+		<result property="parentId" column="parent_id"   />
+		<result property="deptName" column="dept_name"   />
+		<result property="orderNum" column="order_num"   />
+		<result property="leader"   column="leader"      />
+		<result property="status"   column="dept_status" />
+	</resultMap>
+
+	<resultMap id="RoleResult" type="SysRole">
+		<id     property="roleId"       column="role_id"        />
+		<result property="roleName"     column="role_name"      />
+		<result property="roleKey"      column="role_key"       />
+		<result property="roleSort"     column="role_sort"      />
+		<result property="dataScope"     column="data_scope"    />
+		<result property="status"       column="role_status"    />
+	</resultMap>
+
+	<sql id="selectUserVo">
+		select u.user_id, u.dept_id, u.user_name, u.nick_name, u.online_number,u.email, u.avatar, u.phonenumber, u.pass_word, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_name, u.create_time, u.remark,u.tenant_id,u.locks,
+		d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+		r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+		from sys_user u
+		left join sys_dept d on u.dept_id = d.dept_id
+		left join sys_user_role ur on u.user_id = ur.user_id
+		left join sys_role r on r.role_id = ur.role_id
+	</sql>
+
+	<sql id="selecUserVoDetail">I
+		select u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.avatar, u.phonenumber, u.pass_word, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_name, u.create_time, u.remark,u.tenant_id,u.locks,
+		d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+		r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+		from sys_user u
+		left join sys_dept d on u.dept_id = d.dept_id
+		left join sys_user_role ur on u.user_id = ur.user_id
+		left join sys_role r on r.role_id = ur.role_id
+	</sql>
+
+	<select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
+		select u.user_id, u.dept_id, u.nick_name, u.user_name, u.email, u.avatar, u.phonenumber, u.pass_word, u.sex, u.status, u.del_flag, u.login_ip, u.login_date, u.create_name, u.create_time, u.remark,u.tenant_id,u.locks,d.dept_name, d.leader from sys_user u
+		left join sys_dept d on u.dept_id = d.dept_id
+		where u.del_flag = '0'
+		<if test="userName != null and userName != ''">
+			AND u.user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND u.status = #{status}
+		</if>
+		<if test="phonenumber != null and phonenumber != ''">
+			AND u.phonenumber like concat('%', #{phonenumber}, '%')
+		</if>
+		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+			AND date_format(u.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+		</if>
+		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+			AND date_format(u.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+		</if>
+		<if test="deptId != null and deptId != 0">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+
+	<select id="selectUserByUserName" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.user_name = #{userName}
+	</select>
+
+	<select id="selectUserByEmail" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.email = #{email}
+	</select>
+
+	<select id="selectUserByPhone" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.phonenumber = #{mobile}
+	</select>
+
+	<select id="selectUserDetailById" parameterType="Long" resultMap="SysUserResultDetail">
+		SELECT
+			u.user_id,
+			u.dept_id,
+			u.user_name,
+			u.nick_name,
+			u.email,
+			u.avatar,
+			u.phonenumber,
+			u.pass_word,
+			u.sex,
+			u.status,
+			u.del_flag,
+			u.login_ip,
+			u.login_date,
+			u.create_name,
+			u.create_time,
+			u.remark,
+			u.tenant_id,
+			u.locks,
+			d.dept_id,
+			d.parent_id,
+			d.dept_name,
+			d.order_num,
+			d.leader,
+			d.status AS dept_status,
+			u.`online_number`,
+			u.`reg_channel`,
+			u.`last_login_channel`,
+			u.`user_type`,
+			u.`online_sync`
+		FROM
+			sys_user u
+			LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+			LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id
+		WHERE u.user_id = #{userId}
+	</select>
+
+	<select id="selectUserById" parameterType="Long" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.user_id = #{userId}
+	</select>
+
+	<select id="checkUserNameUnique" parameterType="String" resultType="int">
+		select count(1) from sys_user where user_name = #{userName} limit 1
+	</select>
+
+	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
+		insert into sys_user(
+		<if test="userId != null and userId != 0">user_id,</if>
+		<if test="deptId != null and deptId != 0">dept_id,</if>
+		<if test="userName != null and userName != ''">user_name,</if>
+		<if test="nickName != null and nickName != ''">nick_name,</if>
+		<if test="email != null and email != ''">email,</if>
+		<if test="avatar != null and avatar != ''">avatar,</if>
+		<if test="phonenumber != null and phonenumber != ''">phonenumber,</if>
+		<if test="sex != null and sex != ''">sex,</if>
+		<if test="passWord != null and passWord != ''">pass_word,</if>
+		<if test="status != null and status != ''">status,</if>
+		<if test="createName != null and createName != ''">create_name,</if>
+		<if test="createUser != null and createUser != ''">create_user,</if>
+		<if test="remark != null and remark != ''">remark,</if>
+		<if test="tenantId != null and tenantId != ''">tenant_id,</if>
+		<if test="locks != null and locks != ''">locks,</if>
+		<if test="userType != null">user_type,</if>
+		<if test="regChannel != null">reg_channel,</if>
+		create_time
+		)values(
+		<if test="userId != null and userId != ''">#{userId},</if>
+		<if test="deptId != null and deptId != ''">#{deptId},</if>
+		<if test="userName != null and userName != ''">#{userName},</if>
+		<if test="nickName != null and nickName != ''">#{nickName},</if>
+		<if test="email != null and email != ''">#{email},</if>
+		<if test="avatar != null and avatar != ''">#{avatar},</if>
+		<if test="phonenumber != null and phonenumber != ''">#{phonenumber},</if>
+		<if test="sex != null and sex != ''">#{sex},</if>
+		<if test="passWord != null and passWord != ''">#{passWord},</if>
+		<if test="status != null and status != ''">#{status},</if>
+		<if test="createName != null and createName != ''">#{createName},</if>
+		<if test="createUser != null and createUser != ''">#{createUser},</if>
+		<if test="remark != null and remark != ''">#{remark},</if>
+		<if test="tenantId != null and tenantId != ''">#{tenantId},</if>
+		<if test="locks != null and locks != ''">#{locks},</if>
+		<if test="userType != null">#{userType,typeHandler=com.flybirds.mybatis.core.handler.DefaultEnumTypeHandler},</if>
+		<if test="regChannel != null">#{regChannel,typeHandler=com.flybirds.mybatis.core.handler.DefaultEnumTypeHandler},</if>
+		sysdate()
+		)
+	</insert>
+
+	<update id="updateUser" parameterType="SysUser">
+		update sys_user
+		<set>
+			<if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
+			<if test="userName != null and userName != ''">user_name = #{userName},</if>
+			<if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+			<if test="email != null ">email = #{email},</if>
+			<if test="phonenumber != null ">phonenumber = #{phonenumber},</if>
+			<if test="sex != null and sex != ''">sex = #{sex},</if>
+			<if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
+			<if test="passWord != null and passWord != ''">pass_word = #{passWord},</if>
+			<if test="status != null and status != ''">status = #{status},</if>
+			<if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
+			<if test="loginDate != null">login_date = #{loginDate},</if>
+			<if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+			<if test="updateUser != null and updateUser != ''">update_user = #{updateUser},</if>
+			<if test="remark != null">remark = #{remark},</if>
+			<if test="tenantId != null and tenantId != ''">tenant_id = #{tenantId},</if>
+			<if test="locks != null and locks != ''">locks = #{locks},</if>
+			update_time = sysdate()
+		</set>
+		where user_id = #{userId}
+	</update>
+
+	<update id="updateSysUserLoginByName" parameterType="SysUser">
+		update sys_user
+		<set>
+			<if test="lastLoginChannel != null">last_login_channel = #{lastLoginChannel,typeHandler=com.flybirds.mybatis.core.handler.DefaultEnumTypeHandler},</if>
+			<if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
+			login_date = sysdate()
+		</set>
+		where user_name = #{userName}
+	</update>
+
+	<update id="updateUserStatus" parameterType="SysUser">
+ 		update sys_user set status = #{status} where user_id = #{userId}
+	</update>
+
+	<update id="updateUserAvatar" parameterType="SysUser">
+ 		update sys_user set avatar = #{avatar} where user_name = #{userName}
+	</update>
+
+	<update id="resetUserPwdByName" parameterType="String">
+ 		update sys_user set pass_word = #{passWord} where user_name = #{userName}
+	</update>
+
+	<update id="resetUserPwdById">
+		update sys_user set pass_word = #{passWord} where user_id = #{userId}
+	</update>
+
+	<delete id="deleteUserById" parameterType="Long">
+ 		delete from sys_user where user_id = #{userId}
+ 	</delete>
+
+	<delete id="deleteUserByIds" parameterType="Long">
+		update sys_user set del_flag = '2' where user_id in
+		<foreach collection="array" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</delete>
+
+	<select id="selectUserNameByPostCodeAndDeptId" resultType="String">
+		SELECT user_name FROM  sys_post p
+		left join sys_user_post up on p.post_id = up.post_id
+		left join sys_user u on up.user_id= u.user_id
+		where post_code=#{param1} and dept_id=#{param2}
+	</select>
+
+	<select id="selectAllocatedList" parameterType="SysUser" resultMap="SysUserResult">
+		select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+		from sys_user u
+		left join sys_dept d on u.dept_id = d.dept_id
+		left join sys_user_role ur on u.user_id = ur.user_id
+		left join sys_role r on r.role_id = ur.role_id
+		where u.del_flag = '0' and r.role_id = #{roleId}
+		<if test="userName != null and userName != ''">
+			AND u.user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="phonenumber != null and phonenumber != ''">
+			AND u.phonenumber like concat('%', #{phonenumber}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+
+	<select id="selectUnallocatedList" parameterType="SysUser" resultMap="SysUserResult">
+		select distinct u.user_id, u.dept_id, u.user_name, u.nick_name, u.email, u.phonenumber, u.status, u.create_time
+		from sys_user u
+		left join sys_dept d on u.dept_id = d.dept_id
+		left join sys_user_role ur on u.user_id = ur.user_id
+		left join sys_role r on r.role_id = ur.role_id
+		where u.del_flag = '0' and (r.role_id != #{roleId} or r.role_id IS NULL)
+		and u.user_id not in (select u.user_id from sys_user u inner join sys_user_role ur on u.user_id = ur.user_id and ur.role_id = #{roleId})
+		<if test="userName != null and userName != ''">
+			AND u.user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="phonenumber != null and phonenumber != ''">
+			AND u.phonenumber like concat('%', #{phonenumber}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+
+</mapper> 

@@ -1,0 +1,69 @@
+# flybirds-gateway 配置
+server:
+  port: 9903
+
+platform:
+  info:
+    server-nacos-addr: 192.168.144.129
+    server-sentinel-addr: 192.168.144.129
+    # 数据库主库
+    datasource-master: young-flybirds-system
+    # 数据库从库
+    datasource-salve01:
+    datasource-salve02:
+
+# 日志文件配置
+logging:
+  file:
+    name: logs/${spring.application.name}/info.log
+
+spring:
+  application:
+    # 应用名称
+    name: young-flybirds-gateway
+  profiles:
+    # 环境配置
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: ${platform.info.server-nacos-addr}:8848
+      config:
+        # 配置中心地址
+        server-addr: ${platform.info.server-nacos-addr}:8848
+        # 配置文件格式
+        file-extension: yml
+        #实时刷新
+        refresh-enabled: true
+        # 共享配置
+        ext-config:
+          - data-id: young-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: DEFAULT_GROUP
+            refresh: true
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        # 控制台地址
+        dashboard: 192.168.144.129:8858
+      # nacos配置持久化
+      datasource:
+        #限流规则使用nacos适配sentinel
+        ds1:
+          nacos:
+            server-addr: 192.168.144.129:8848
+            dataId: young-sentinel-flow-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+        #降级规则使用nacos适配sentinel ->未使用hystrix
+        ds2:
+          nacos:
+            server-addr: 192.168.144.129:8848
+            dataId: young-sentinel-degrade-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: degrade

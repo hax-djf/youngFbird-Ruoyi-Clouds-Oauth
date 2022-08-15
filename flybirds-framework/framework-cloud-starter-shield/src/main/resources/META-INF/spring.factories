@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.flybirds.shield.idempotent.config.FlybirdsIdempotentConfiguration,\
+  com.flybirds.shield.lock4j.config.FlybirdsLock4jConfiguration

@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.flybirds.mybatis.config.MybatisPlusConfig,\
+  com.flybirds.mybatis.config.SqlStatementInterceptor

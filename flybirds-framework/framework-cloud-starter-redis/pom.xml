@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flybirds-framework</artifactId>
+        <groupId>com.flybirds</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>会飞的小鸟[分布式缓存NOSQL-Redis服务]redis</description>
+    <artifactId>framework-cloud-starter-redis</artifactId>
+
+    <dependencies>
+
+        <!-- SpringBoot Boot Redis 采用的是Cache缓存配置 -->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--</dependency>-->
+
+        <!--org.redisson  注意点：在使用cachea缓存的是使用的ehCache,必须配置 ehCache.xml文件配置才行-->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- framework-cloud-starter-common  -->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

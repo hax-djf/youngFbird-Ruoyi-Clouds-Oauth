@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.oauthModule.system.mapper.OauthRefreshTokenMapper">
+    
+    <resultMap type="OauthRefreshToken" id="OauthRefreshTokenResult">
+        <result property="tokenId"    column="token_id"    />
+        <result property="token"    column="token"    />
+        <result property="authentication"    column="authentication"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectOauthRefreshTokenVo">
+        select token_id, token, authentication, create_time from oauth_refresh_token
+    </sql>
+
+    <select id="selectOauthRefreshTokenList" parameterType="OauthRefreshToken" resultMap="OauthRefreshTokenResult">
+        <include refid="selectOauthRefreshTokenVo"/>
+        <where>  
+            <if test="tokenId != null  and tokenId != ''"> and token_id = #{tokenId}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+            <if test="authentication != null  and authentication != ''"> and authentication = #{authentication}</if>
+        </where>
+    </select>
+    
+    <select id="selectOauthRefreshTokenByTokenId" parameterType="String" resultMap="OauthRefreshTokenResult">
+        <include refid="selectOauthRefreshTokenVo"/>
+        where token_id = #{tokenId}
+    </select>
+        
+    <insert id="insertOauthRefreshToken" parameterType="OauthRefreshToken">
+        insert into oauth_refresh_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tokenId != null">token_id,</if>
+            <if test="token != null">token,</if>
+            <if test="authentication != null">authentication,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tokenId != null">#{tokenId},</if>
+            <if test="token != null">#{token},</if>
+            <if test="authentication != null">#{authentication},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOauthRefreshToken" parameterType="OauthRefreshToken">
+        update oauth_refresh_token
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="token != null">token = #{token},</if>
+            <if test="authentication != null">authentication = #{authentication},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where token_id = #{tokenId}
+    </update>
+
+    <delete id="deleteOauthRefreshTokenByTokenId" parameterType="String">
+        delete from oauth_refresh_token where token_id = #{tokenId}
+    </delete>
+
+    <delete id="deleteOauthRefreshTokenByTokenIds" parameterType="String">
+        delete from oauth_refresh_token where token_id in 
+        <foreach item="tokenId" collection="array" open="(" separator="," close=")">
+            #{tokenId}
+        </foreach>
+    </delete>
+</mapper>

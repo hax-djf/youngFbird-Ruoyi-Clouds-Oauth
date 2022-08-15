@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flybirds-framework</artifactId>
+        <groupId>com.flybirds</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>会飞的小鸟[redis{sub/pub}服务]mq-redis</description>
+    <artifactId>framework-cloud-starter-mq-redis</artifactId>
+
+    <dependencies>
+
+        <!-- **************************  {Flybirds Source Di} ************************** -->
+        <!-- framework-cloud-starter-redis -->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-redis</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.oauthModule.system.mapper.OauthCodeMapper">
+    
+    <resultMap type="OauthCode" id="OauthCodeResult">
+        <result property="createTime"    column="create_time"    />
+        <result property="code"    column="code"    />
+        <result property="authentication"    column="authentication"    />
+    </resultMap>
+
+    <sql id="selectOauthCodeVo">
+        select create_time, code, authentication from oauth_code
+    </sql>
+
+    <select id="selectOauthCodeList" parameterType="OauthCode" resultMap="OauthCodeResult">
+        <include refid="selectOauthCodeVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="authentication != null  and authentication != ''"> and authentication = #{authentication}</if>
+        </where>
+    </select>
+    
+    <select id="selectOauthCodeByCreateTime" parameterType="Date" resultMap="OauthCodeResult">
+        <include refid="selectOauthCodeVo"/>
+        where create_time = #{createTime}
+    </select>
+        
+    <insert id="insertOauthCode" parameterType="OauthCode">
+        insert into oauth_code
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">create_time,</if>
+            <if test="code != null">code,</if>
+            <if test="authentication != null">authentication,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createTime != null">#{createTime},</if>
+            <if test="code != null">#{code},</if>
+            <if test="authentication != null">#{authentication},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOauthCode" parameterType="OauthCode">
+        update oauth_code
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">code = #{code},</if>
+            <if test="authentication != null">authentication = #{authentication},</if>
+        </trim>
+        where create_time = #{createTime}
+    </update>
+
+    <delete id="deleteOauthCodeByCreateTime" parameterType="Date">
+        delete from oauth_code where create_time = #{createTime}
+    </delete>
+
+    <delete id="deleteOauthCodeByCreateTimes" parameterType="String">
+        delete from oauth_code where create_time in 
+        <foreach item="createTime" collection="array" open="(" separator="," close=")">
+            #{createTime}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FBIRD 授权</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<style>
+
+    html{
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .title {
+        background-color: #303643;
+        height: 60px;
+        padding-left: 20%;
+        padding-right: 20%;
+        color: white;
+        line-height: 50px;
+        font-size: 18px;
+        align-items: center;
+    }
+    .title-right{
+        float: right;
+        color: white;
+    }
+    .title-left{
+        float: left;
+        font-size: 26px
+    }
+    .title-left a{
+        color: white;
+    }
+    .container{
+        clear: both;
+        text-align: center;
+    }
+    .btn {
+        width: 100px;
+        height: 35px;
+        line-height: 35px;
+        cursor: pointer;
+        margin-top: 20px;
+        border-radius: 3px;
+        color: white;
+        border: none;
+        font-size: 15px;
+    }
+</style>
+<body style="margin: 0px">
+<div class="title">
+
+    <div class="title-left">
+        <img style="border:0; height: 40px;width: 40px" src="../templates/image/logo.png">
+        <span>Oauth2.0授权请求</span>
+    </div>
+    <div class="title-right">
+        <a href="#help">帮助中心</a>
+        <a href="#help" th:text="${userName}"></a>
+    </div>
+</div>
+<div class="container">
+    <h3 th:text="${clientId} +' 请求授权，该应用将获取你的以下信息'"></h3>
+    <p>基本信息</p>
+    授权后表明你已同意 <a  href="#boot" style="color: #E9686B">服务协议</a>
+    <form id="authorize" method="post" action="/oauth/authorize">
+        <input type="hidden" name="user_oauth_approval" value="true">
+        <input type="hidden" name="state" value="" id="state" th:value="${state}">
+        <input type="hidden" name="redirect_uri" id="redirect_uri" th:value="${redirect_uri}">
+        <div th:each="item:${response_type}">
+            <input type="hidden" name="response_type" id="response_type" th:value="${item}">
+        </div>
+
+        <div class="checkbox checked choose-single-checkbox ui" th:each="item:${scopes}">
+            <!--<input th:disabled="${item.value == 'user_info'}" th:text="${item.label}"-->
+                   <!--type="checkbox" th:id="${item.value}" th:name="'scope.'+${item.value}" value="true" checked>-->
+            <input  th:text="${item.label}"
+                   type="checkbox" th:id="${item.value}" th:name="'scope.'+${item.value}" value="true" checked>
+
+        </div>
+
+        <input class="btn" style="background-color: #2976eb;" name="authorize" value="同意授权" type="submit">
+    </form>
+
+    <form id="_authorize" method="post" action="/oauth/authorize">
+        <input type="hidden" name="user_oauth_approval" value="false">
+        <input type="hidden" name="state" value="" id="state" th:value="${state}">
+        <input type="hidden" name="redirect_uri" id="redirect_uri" th:value="${redirect_uri}">
+        <div th:each="item:${response_type}">
+            <input type="hidden" name="response_type" id="response_type" th:value="${item}">
+        </div>
+
+        <div class="checkbox checked choose-single-checkbox ui" th:each="item:${scopes}">
+            <input type="hidden" th:id="${item.value}" th:name="'scope.'+${item.value}" value="false" checked>
+        </div>
+        <input class="btn" style="background-color: #E9686B;" name="authorize" value="拒绝" type="submit">
+    </form>
+</div>
+</body>
+</html>
+<script>
+
+</script>

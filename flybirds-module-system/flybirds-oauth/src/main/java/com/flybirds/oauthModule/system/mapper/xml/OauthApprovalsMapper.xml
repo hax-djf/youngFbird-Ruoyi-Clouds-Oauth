@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.oauthModule.system.mapper.OauthApprovalsMapper">
+    
+    <resultMap type="OauthApprovals" id="OauthApprovalsResult">
+        <result property="userid"    column="userId"    />
+        <result property="clientid"    column="clientId"    />
+        <result property="scope"    column="scope"    />
+        <result property="status"    column="status"    />
+        <result property="expiresat"    column="expiresAt"    />
+        <result property="lastmodifiedat"    column="lastModifiedAt"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectOauthApprovalsVo">
+        select userId, clientId, scope, status, expiresAt, lastModifiedAt, create_time from oauth_approvals
+    </sql>
+
+    <select id="selectOauthApprovalsList" parameterType="OauthApprovals" resultMap="OauthApprovalsResult">
+        <include refid="selectOauthApprovalsVo"/>
+        <where>  
+            <if test="userid != null  and userid != ''"> and userId = #{userid}</if>
+            <if test="clientid != null  and clientid != ''"> and clientId = #{clientid}</if>
+            <if test="scope != null  and scope != ''"> and scope = #{scope}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="expiresat != null "> and expiresAt = #{expiresat}</if>
+            <if test="lastmodifiedat != null "> and lastModifiedAt = #{lastmodifiedat}</if>
+        </where>
+    </select>
+    
+    <select id="selectOauthApprovalsByUserid" parameterType="String" resultMap="OauthApprovalsResult">
+        <include refid="selectOauthApprovalsVo"/>
+        where userId = #{userid}
+    </select>
+        
+    <insert id="insertOauthApprovals" parameterType="OauthApprovals">
+        insert into oauth_approvals
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">userId,</if>
+            <if test="clientid != null">clientId,</if>
+            <if test="scope != null">scope,</if>
+            <if test="status != null">status,</if>
+            <if test="expiresat != null">expiresAt,</if>
+            <if test="lastmodifiedat != null">lastModifiedAt,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userid != null">#{userid},</if>
+            <if test="clientid != null">#{clientid},</if>
+            <if test="scope != null">#{scope},</if>
+            <if test="status != null">#{status},</if>
+            <if test="expiresat != null">#{expiresat},</if>
+            <if test="lastmodifiedat != null">#{lastmodifiedat},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOauthApprovals" parameterType="OauthApprovals">
+        update oauth_approvals
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientid != null">clientId = #{clientid},</if>
+            <if test="scope != null">scope = #{scope},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="expiresat != null">expiresAt = #{expiresat},</if>
+            <if test="lastmodifiedat != null">lastModifiedAt = #{lastmodifiedat},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where userId = #{userid}
+    </update>
+
+    <delete id="deleteOauthApprovalsByUserid" parameterType="String">
+        delete from oauth_approvals where userId = #{userid}
+    </delete>
+
+    <delete id="deleteOauthApprovalsByUserids" parameterType="String">
+        delete from oauth_approvals where userId in 
+        <foreach item="userid" collection="array" open="(" separator="," close=")">
+            #{userid}
+        </foreach>
+    </delete>
+</mapper>

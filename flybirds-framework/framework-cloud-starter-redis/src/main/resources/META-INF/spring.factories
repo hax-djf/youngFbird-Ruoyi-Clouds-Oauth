@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.flybirds.redis.config.FlybirdsRedisAutoConfiguration,\
+  com.flybirds.redis.manger.RedisCacheManger
+
+  

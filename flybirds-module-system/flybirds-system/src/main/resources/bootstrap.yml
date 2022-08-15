@@ -1,0 +1,47 @@
+# flybirds-system -localhost
+server:
+  port: 9907
+
+platform:
+  info:
+    server-nacos-addr: 192.168.144.129
+    # 数据库主库
+    datasource-master: young-flybirds-system
+    # 数据库从库
+    datasource-salve01:
+    datasource-salve02:
+
+# 日志文件配置
+logging:
+  file:
+    name: logs/${spring.application.name}/info.log
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: young-flybirds-system
+  #排除原生的druid配置
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: ${platform.info.server-nacos-addr}:8848
+      config:
+        # 配置中心地址
+        server-addr: ${platform.info.server-nacos-addr}:8848
+        # 配置文件格式
+        file-extension: yml
+        #刷新
+        refresh-enabled: true
+        # 共享配置
+        ext-config:
+          - data-id: young-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+            group: DEFAULT_GROUP
+            refresh: true
+

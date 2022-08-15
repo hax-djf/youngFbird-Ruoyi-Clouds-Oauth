@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>young-flybirds</artifactId>
+        <groupId>com.flybirds</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>flybirds-framework</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <!--模板-->
+    <modules>
+        <module>framework-cloud-starter-mybatis</module>
+        <module>framework-cloud-starter-web</module>
+        <module>framework-cloud-starter-shield</module>
+        <module>framework-cloud-starter-auth</module>
+        <module>framework-cloud-starter-sms-provider</module>
+        <module>framework-cloud-starter-email</module>
+        <module>framework-cloud-starter-log</module>
+        <module>framework-cloud-starter-excel</module>
+        <module>framework-cloud-starter-redis</module>
+        <module>framework-cloud-starter-dict</module>
+        <module>framework-cloud-starter-data-source</module>
+        <module>framework-cloud-starter-data-scope</module>
+        <module>framework-cloud-starter-db-doc</module>
+        <module>framework-cloud-starter-mq-redis</module>
+        <module>framework-cloud-starter-security</module>
+        <module>framework-cloud-starter-common</module>
+        <module>framework-cloud-starter-swagger</module>
+    </modules>
+
+
+</project>

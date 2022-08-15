@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flybirds.oss.mapper.SysFileInfoMapper">
+
+    <resultMap type="SysFileInfo" id="SysFileInfoResult">
+        <id     property="fileId"         column="file_id"          />
+        <result property="fileName"       column="file_name"        />
+        <result property="filePath"       column="file_path"        />
+    </resultMap>
+
+    <insert id="insert" parameterType="SysFileInfo">
+        insert into sys_file_info (file_name, file_path) values (#{fileName}, #{filePath})
+    </insert>
+
+</mapper>

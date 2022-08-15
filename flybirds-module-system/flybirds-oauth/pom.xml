@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flybirds-module-system</artifactId>
+        <groupId>com.flybirds</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>flybirds-oauth</artifactId>
+
+    <dependencies>
+
+        <!-- **************************  {Open Source Di} ************************** -->
+
+        <!-- SpringCloud Ailibaba Nacos 注册中心-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- SpringCloud Ailibaba Nacos Config 配置中心-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!--swagger-ui-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+
+        <!--整合knife4j文档-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- **************************  {Flybirds Source Di} ************************** -->
+
+        <!-- framework-cloud-starter-web 服务-->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-web</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- framework-cloud-starter-shield 护盾-->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-shield</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- common-security 安全控制-->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-security</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- common-datasource 数据源 -->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-data-source</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>api-sms</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 集成justauth 第三登录-->
+        <dependency>
+            <groupId>com.flybirds</groupId>
+            <artifactId>framework-cloud-starter-auth</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <!--引入mapper对应的xml文件-->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+
+</project>

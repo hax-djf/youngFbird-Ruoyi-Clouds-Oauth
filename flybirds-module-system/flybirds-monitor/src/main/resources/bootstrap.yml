@@ -1,0 +1,35 @@
+
+server:
+  port: 9100
+
+# Spring
+spring:
+  application:
+    # 应用名称
+    name: young-flybirds-monitor
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 192.168.144.129:8848
+      config:
+        # 配置中心地址
+        server-addr: 192.168.144.129:8848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+#        ext-config:
+#          - data-id: young-application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+#            group: DEFAULT_GROUP
+#            refresh: true
+
+#关闭hystrix时间检测功能
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
