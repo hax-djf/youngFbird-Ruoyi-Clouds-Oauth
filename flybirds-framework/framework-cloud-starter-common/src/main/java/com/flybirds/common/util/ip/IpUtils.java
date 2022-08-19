@@ -29,6 +29,7 @@ public class IpUtils
 
     public static String getIpAddr(HttpServletRequest request)
     {
+        String ips = "127.0.0.1";
         if (request == null)
         {
             return "unknown";
@@ -55,7 +56,9 @@ public class IpUtils
         {
             ip = request.getRemoteAddr();
         }
-        return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : EscapeUtil.clean(ip);
+        ips =  "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : EscapeUtil.clean(ip);
+
+        return ips.contains(",") ? ips.split(",")[1] : ips;
     }
 
     public static boolean internalIp(String ip)

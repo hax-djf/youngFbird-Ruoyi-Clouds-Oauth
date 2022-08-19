@@ -14,6 +14,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.flybirds.common.constant.Constant.DateFormat.TIME_ZONE_DEFAULT_GMT;
+import static com.flybirds.common.constant.Constant.DateFormat.YYYY_MM_DD_HH_MM_SS;
+
 /**
  * 系统访问记录表 sys_logininfor
  * 
@@ -61,7 +64,7 @@ public class SysLogininfor  implements Serializable {
     private String msg;
 
     /** 访问时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     @ExcelPOI(name = "访问时间", width = 30, dateFormat = "yyyy-MM-dd HH:mm:ss")
     private Date loginTime;
 

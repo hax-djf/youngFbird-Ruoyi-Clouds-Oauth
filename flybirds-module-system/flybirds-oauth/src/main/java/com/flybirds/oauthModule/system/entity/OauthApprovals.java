@@ -8,6 +8,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Date;
 
+import static com.flybirds.common.constant.Constant.DateFormat.TIME_ZONE_DEFAULT_GMT;
+import static com.flybirds.common.constant.Constant.DateFormat.YYYY_MM_DD_HH_MM_SS;
+
 /**
  * 授权阈对象 oauth_approvals
  * 
@@ -36,12 +39,12 @@ public class OauthApprovals
     private String status;
 
     /** 过期时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     @ExcelPOI(name = "过期时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date expiresat;
 
     /** 最后修改时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     @ExcelPOI(name = "最后修改时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date lastmodifiedat;
 

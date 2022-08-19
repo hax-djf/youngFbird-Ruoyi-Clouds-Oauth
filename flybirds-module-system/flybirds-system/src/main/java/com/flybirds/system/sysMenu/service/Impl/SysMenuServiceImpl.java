@@ -17,6 +17,7 @@ import com.flybirds.system.vo.RouterVo;
 import com.flybirds.system.vo.TreeSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -279,6 +280,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateMenu(SysMenu menu)
     {
         return menuMapper.updateMenu(menu);
@@ -291,6 +293,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper,SysMenu> imple
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteMenuById(Long menuId)
     {
         return menuMapper.deleteMenuById(menuId);

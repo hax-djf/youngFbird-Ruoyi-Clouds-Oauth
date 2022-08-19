@@ -11,6 +11,9 @@ import lombok.ToString;
 
 import java.util.Date;
 
+import static com.flybirds.common.constant.Constant.DateFormat.TIME_ZONE_DEFAULT_GMT;
+import static com.flybirds.common.constant.Constant.DateFormat.YYYY_MM_DD_HH_MM_SS;
+
 @ApiModel("短信渠道 Response VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -25,7 +28,7 @@ public class SysSmsChannelRespVO extends SysSmsChannelBaseVO {
     private String code;
 
     @ApiModelProperty(value = "创建时间", required = true)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     private Date createTime;
 
 }

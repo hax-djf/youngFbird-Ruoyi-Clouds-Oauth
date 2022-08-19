@@ -42,12 +42,7 @@ public class VerificationCodeFilter extends AbstractGatewayFilterFactory<Object>
     public GatewayFilter apply(Object config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-
-            // 非登录请求，不处理
-            //if (!StringUtils.containsIgnoreCase(request.getURI().getPath(), AUTH_URL)){
-            //    return chain.filter(exchange);
-            // }
-            if (!StringUtils.equals(request.getURI().getPath(), ApiConstant.API_LOGIN)) {
+            if (!StringUtils.matches(request.getURI().getPath(), ApiConstant.API_LOGIN)) {
                 return chain.filter(exchange);
             }
             try {

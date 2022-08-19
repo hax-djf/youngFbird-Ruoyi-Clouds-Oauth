@@ -17,6 +17,7 @@ import com.flybirds.system.sysRole.mapper.SysRoleMapper;
 import com.flybirds.system.vo.TreeSelect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -186,6 +187,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper,SysDept> imple
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertDept(SysDept dept)
     {
         SysDept info = deptMapper.selectDeptById(dept.getParentId());
@@ -202,6 +204,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper,SysDept> imple
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateDept(SysDept dept)
     {
         SysDept newParentDept = deptMapper.selectDeptById(dept.getParentId());

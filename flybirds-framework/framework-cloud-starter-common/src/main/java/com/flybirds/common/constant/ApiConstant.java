@@ -15,5 +15,5 @@ public interface ApiConstant {
     /**
      * 系统的登录接口全路径
      */
-    public static final String API_LOGIN =  "/oauth2/token/login";
+    public static final String API_LOGIN =  "/oauth2/token/login-**";
 }

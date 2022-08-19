@@ -17,8 +17,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.flybirds.common.util.date.LocalDateTimeUtils.GMT;
-import static com.flybirds.common.util.date.LocalDateTimeUtils.YYYY_MM_DD_HH_MM_SS;
+import static com.flybirds.common.constant.Constant.DateFormat.TIME_ZONE_DEFAULT_GMT;
+import static com.flybirds.common.constant.Constant.DateFormat.YYYY_MM_DD_HH_MM_SS;
 
 /**
  * @author :flybirds
@@ -115,13 +115,13 @@ public class SysSmsTemplate  implements Serializable {
     protected Long updateUser;
 
     /** 创建时间 */
-    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = GMT)
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     @ExcelPOI(name = "创建时间")
     protected LocalDateTime createTime;
 
     /** 更新时间 */
-    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = GMT)
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     @TableField(value = "update_time",fill = FieldFill.UPDATE)
     @ExcelPOI(name = "修改时间")
     protected LocalDateTime updateTime;

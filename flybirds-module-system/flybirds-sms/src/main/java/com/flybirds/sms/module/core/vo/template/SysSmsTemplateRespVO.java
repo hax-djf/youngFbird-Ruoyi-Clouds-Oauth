@@ -3,7 +3,6 @@ package com.flybirds.sms.module.core.vo.template;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.flybirds.common.constant.Constant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.flybirds.common.constant.Constant.DateFormat.TIME_ZONE_DEFAULT_GMT;
+import static com.flybirds.common.constant.Constant.DateFormat.YYYY_MM_DD_HH_MM_SS;
 
 @ApiModel("短信模板 Response VO")
 @Data
@@ -32,7 +32,7 @@ public class SysSmsTemplateRespVO extends SysSmsTemplateBaseVO {
     private List<String> params;
 
     @ApiModelProperty(value = "创建时间", required = true)
-    @JsonFormat(pattern = Constant.DateFormat.YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
+    @JsonFormat(pattern = YYYY_MM_DD_HH_MM_SS,timezone = TIME_ZONE_DEFAULT_GMT)
     private Date createTime;
 
 }

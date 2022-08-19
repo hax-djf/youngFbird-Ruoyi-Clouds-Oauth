@@ -10,9 +10,9 @@ import com.flybirds.system.utils.DictUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-
 import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -137,6 +137,7 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper,SysDic
      * @return 结果
      */
     @Override
+    @Transactional
     public int deleteDictDataByIds(Long[] dictCodes) {
 
         int row = dictDataMapper.deleteDictDataByIds(dictCodes);
@@ -158,6 +159,7 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper,SysDic
      * @return 结果
      */
     @Override
+    @Transactional
     public int insertDictData(SysDictData dictData) {
         int row = dictDataMapper.insertDictData(dictData);
         if (row > 0) {
@@ -178,6 +180,7 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper,SysDic
      * @return 结果
      */
     @Override
+    @Transactional
     public int updateDictData(SysDictData dictData)
     {
         int row = dictDataMapper.updateDictData(dictData);
