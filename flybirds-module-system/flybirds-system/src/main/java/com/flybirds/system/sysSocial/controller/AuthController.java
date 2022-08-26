@@ -86,7 +86,7 @@ public class AuthController {
         return ok(true,"社交绑定成功");
     }
 
-    @DeleteMapping("/social-unbind")
+    @PostMapping("/social-unbind")
     @ApiOperation("取消社交绑定")
     @Login
     public Result<Boolean> socialUnbind(@RequestBody AuthSocialUnbindReqVO reqVO) {
