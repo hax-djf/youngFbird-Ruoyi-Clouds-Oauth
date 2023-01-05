@@ -1,0 +1,16 @@
+FROM  openjdk:8-jre
+# author
+MAINTAINER flybirds
+# 挂载目录
+VOLUME /home/flybirds
+# 创建目录
+RUN mkdir -p /home/flybirds
+# 指定路径
+WORKDIR /home/flybirds
+# 复制jar文件到路径
+COPY ./jar/flybirds-oss.jar /home/flybirds/flybirds-oss.jar
+#提示映射端口ls
+EXPOSE 9904
+# 启动网关服务
+ENTRYPOINT ["java","-XX:+UnlockExperimentalVMOptions","-XX:+UseCGroupMemoryLimitForHeap","-jar","flybirds-oss.jar"]
+

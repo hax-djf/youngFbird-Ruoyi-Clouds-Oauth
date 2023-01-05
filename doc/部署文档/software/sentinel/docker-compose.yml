@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  sentinel-dashboard:
+    image: bladex/sentinel-dashboard:1.8.0
+    container_name: sentinel-dashboard
+    restart: always
+    ports: 
+      - "8858:8858"
+      - "8719:8719"
+    volumes:
+      - ./logs:/root/logs

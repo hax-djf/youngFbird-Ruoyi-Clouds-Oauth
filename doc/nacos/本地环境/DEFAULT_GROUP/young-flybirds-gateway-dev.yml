@@ -1,0 +1,91 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+       locator:
+         #动态路由，根据服务的名称转发到对应的微服务中
+         enabled: true #是否开启基于服务发现的路由规则
+         lower-case-service-id: true #是否服务名小写
+      routes:
+        # 系统模块
+        - id: young-flybirds-system
+          uri: lb://young-flybirds-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - StripPrefix=1
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # 令牌桶每秒填充速率
+                redis-rate-limiter.burstCapacity: 100 # 令牌桶总容量
+                key-resolver: "#{@pathKeyResolver}" # 使用 SpEL 表达式按名称引用 bean
+         # sms短信模块
+        - id: young-flybirds-sms
+          uri: lb://young-flybirds-sms
+          predicates:
+            - Path=/sms/**
+          filters:
+            - StripPrefix=1
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # 令牌桶每秒填充速率
+                redis-rate-limiter.burstCapacity: 100 # 令牌桶总容量
+                key-resolver: "#{@pathKeyResolver}" # 使用 SpEL 表达式按名称引用 bean
+         # sms短信模块
+        - id: young-flybirds-oss
+          uri: lb://young-flybirds-oss
+          predicates:
+            - Path=/oss/**
+          filters:
+            - StripPrefix=1
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 1 # 令牌桶每秒填充速率
+                redis-rate-limiter.burstCapacity: 100 # 令牌桶总容量
+                key-resolver: "#{@pathKeyResolver}" # 使用 SpEL 表达式按名称引用 bean
+        # 认证模块
+        - id: young-flybirds-oauth
+          uri: lb://young-flybirds-oauth
+          predicates:
+            - Path= /oauth2/**
+          filters:
+            # 配置工厂过滤器
+            - CacheRequestFilter
+            - VerificationCodeFilter
+            - StripPrefix=1
+            - name: BlackListUrlFilter
+              args:
+                blacklistUrl:
+                 - /oauth/*
+    #配置RSA的公钥访问地址
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            jwk-set-uri: 'http://localhost:9006/rsa/publicKey'
+# 支持sentinel的熔断降级
+feign:
+  sentinel:
+    enabled: true
+# 设置ribbon的超时时长
+ribbon:
+  ReadTimeout: 4000
+  ConnectTimeout: 4000
+
+#白名单
+ignore:
+  name: flybirds网关白名单 
+  whites:
+    # 登录
+    - /actuator/**
+    - /oauth/**
+    - /oauth2/**
+    - /code
+    # 系统
+    - /register/**
+    - /retrieve/**
+    - /tenant/open/**
+    - /social/open/**
+    # 其他
+    - /*/v2/api-docs
+    - /csrf

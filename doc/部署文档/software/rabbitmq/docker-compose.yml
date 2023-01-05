@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  rabbitmq:
+    container_name : docker_rabbitmq
+    hostname: rabbitmq
+    restart: always
+    image: rabbitmq:3.8.3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=flybirds
+      - RABBITMQ_DEFAULT_PASS=flybirds
+      - RABBITMQ_DEFAULT_VHOST=my_vhost
+    privileged: true
+    volumes:
+      -  ./datadir:/var/lib/rabbitmq
+    network_mode: "bridge"
+    ports :
+      - 15672:15672
+      - 5672:5672

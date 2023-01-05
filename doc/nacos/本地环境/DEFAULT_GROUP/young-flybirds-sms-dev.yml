@@ -1,0 +1,24 @@
+aliyun:
+  accessKeyId: 
+  accessKeySecret: 
+
+#swagger-ui文档配置   
+swagger:
+  title: ${spring.application.name}模块接口文档
+  license: Powered By flybirds
+  licenseUrl: https://io.flybirds.com
+  authorization:
+    name: flybirds-oauth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: web_service
+        description: 客户端认证系统服务
+    token-url-list:
+      - http://${flybirds.ip.host}:9903/oauth/login
+
+# 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

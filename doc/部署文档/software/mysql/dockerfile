@@ -1,0 +1,7 @@
+FROM mysql:5.7
+# author
+MAINTAINER flybirds
+
+# 执行sql脚本
+ADD ./db/*.sql /docker-entrypoint-initdb.d/
+

@@ -1,0 +1,17 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    hostname: redis
+    container_name: docker_redis
+    restart: always
+    ports:
+      # 端口映射
+      - 6379:6379
+    volumes:
+      # 目录映射
+      - ./datadir:/data
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./logs:/logs
+    # 在容器中执行的命令
+    command: redis-server /usr/local/etc/redis/redis.conf

@@ -1,0 +1,10 @@
+# spring
+spring: 
+  security:
+    user:
+      name: flybirds
+      password: flybirds@123
+  boot:
+    admin:
+      ui:
+        title: YOUNG-FBIRD 服务状态监控

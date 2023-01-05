@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  flybirds-oss:
+    container_name: young_flybirds_oss
+    restart: always
+    network_mode: "bridge"
+    labels:
+      maintainers: "hax"
+    build:
+      context: /home/docker/flybirds/youngService/oss
+      dockerfile: dockerfile
+    ports:
+      - "9904:9904"
+    environment:
+      - TZ=Asia/Shanghai
+    deploy:
+      resources:
+         limits:
+            cpus: "0.50"
+            memory: 512M
+         reservations:
+            cpus: "0.25"
+            memory: 128M
+    volumes:
+      - ./logs:/logs
+      - /home/flybirds/data/pan:/home/flybirds/data/pan
+      - /home/flybirds/data/pan/temp:/home/flybirds/data/pan/temp

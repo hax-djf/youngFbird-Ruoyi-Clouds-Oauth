@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  flybirds-monitor:
+    container_name: young_flybirds_monitor
+    restart: always
+    network_mode: "bridge"
+    labels:
+      maintainers: "hax"
+    build:
+      context: /home/docker/flybirds/youngService/monitor
+      dockerfile: dockerfile
+    ports:
+      - "9100:9100"
+    environment:
+      - TZ=Asia/Shanghai
+    deploy:
+      resources:
+         limits:
+            cpus: "0.50"
+            memory: 256M
+         reservations:
+            cpus: "0.25"
+            memory: 128M
+    volumes:
+      - ./logs:/logs

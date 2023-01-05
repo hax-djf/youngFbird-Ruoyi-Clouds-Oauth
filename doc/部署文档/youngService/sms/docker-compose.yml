@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  flybirds-sms:
+    container_name: young_flybirds_sms
+    restart: always
+    network_mode: "bridge"
+    labels:
+      maintainers: "hax"
+    build:
+      context: /home/docker/flybirds/youngService/sms
+      dockerfile: dockerfile
+    ports:
+      - "9905:9905"
+      - "8905:8905"
+    environment:
+      - TZ=Asia/Shanghai
+    deploy:
+      resources:
+         limits:
+            cpus: "0.50"
+            memory: 512M
+         reservations:
+            cpus: "0.25"
+            memory: 128M
+    volumes:
+      - ./logs:/logs

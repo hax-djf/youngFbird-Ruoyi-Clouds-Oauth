@@ -1,0 +1,24 @@
+FROM  openjdk:8-jre
+# author
+MAINTAINER flybirds
+# 挂载目录
+VOLUME /home/flybirds
+# 创建目录
+RUN mkdir -p /home/flybirds
+# RUN apt-get update --fix-missing && apt-get install -y fontconfig --fix-missing
+#RUN apt-get install procps
+# RUN apt-get install iputils-ping
+# RUN apt-get install vim
+# RUN apt-get install net-tools
+# 指定路径
+WORKDIR /home/flybirds
+# 复制jar文件到路径
+COPY ./jar/flybirds-gateway.jar /home/flybirds/flybirds-gateway.jar
+#提示映射端口
+EXPOSE 9903
+EXPOSE 8903
+# 启动网关服务
+# ENTRYPOINT ["java","-jar","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8903","flybirds-gateway.jar"]
+ENTRYPOINT ["java","-XX:+UnlockExperimentalVMOptions","-XX:+UseCGroupMemoryLimitForHeap","-jar","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8903","flybirds-gateway.jar"]
+# ENTRYPOINT ["java","-jar","-Xms128M -Xmx512M -Xss256K","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8903","flybirds-gateway.jar"]
+# ENTRYPOINT exec java -Xms128m -Xmx512m - jar flybirds-gateway.jar

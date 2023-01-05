@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  flybirds-oauth:
+    container_name: young_flybirds_oauth
+    restart: always
+    network_mode: "bridge"
+    labels:
+      maintainers: "hax"
+    build:
+      context: /home/docker/flybirds/youngService/oauth
+      dockerfile: dockerfile
+    ports:
+      - "9906:9906"
+      - "8906:8906"
+    deploy:
+      resources:
+         limits:
+            cpus: "0.50"
+            memory: 512M
+         reservations:
+            cpus: "0.25"
+            memory: 128M
+    volumes:
+      - ./logs:/logs

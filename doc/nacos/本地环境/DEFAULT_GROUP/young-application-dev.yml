@@ -1,0 +1,190 @@
+spring:
+  redis:
+    database: 0
+    host: ${flybirds.ip.redis}
+    port: 6379
+    password: ${flybirds.password.redis}
+    timeout: 6000ms  # 连接超时时长（毫秒）
+    jedis:
+      pool:
+        max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 10      # 连接池中的最大空闲连接
+        min-idle: 5       # 连接池中的最小空闲连接
+  datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        loginUsername: ${flybirds.user.druid}
+        loginPassword: ${flybirds.password.druid}
+    dynamic:
+      druid:
+        initial-size: 5
+        min-idle: 5
+        maxActive: 20
+        maxWait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: SELECT 1 FROM DUAL
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxPoolPreparedStatementPerConnectionSize: 20
+        filters: stat,wall,slf4j
+        connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+      datasource:
+          # 主库数据源
+          master:
+            driver-class-name: com.mysql.cj.jdbc.Driver
+            name: ${platform.info.datasource-master}
+            url: jdbc:mysql://${flybirds.ip.mysql}:3306/${spring.datasource.dynamic.datasource.master.name}?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+            username: ${flybirds.user.mysql}
+            password: ${flybirds.password.mysql}
+
+# mybatis-plus配置文
+mybatis-plus:
+  # 对应的 XML 文件位置
+  mapperLocations: classpath*:/com/flybirds/**/mapper/xml/*.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.flybirds.**.entity
+  # 针对 typeAliasesPackage，如果配置了该属性，则仅仅会扫描路径下以该类作为父类的域对象
+  #typeAliasesSuperType: Class<?>
+  # 如果配置了该属性，SqlSessionFactoryBean 会把该包下面的类注册为对应的 TypeHandler
+  #typeHandlersPackage: null
+  # 如果配置了该属性，会将路径下的枚举类进行注入，让实体类字段能够简单快捷的使用枚举属性
+  #typeEnumsPackage: null
+  # 启动时是否检查 MyBatis XML 文件的存在，默认不检查
+  checkConfigLocation: false
+  # 通过该属性可指定 MyBatis 的执行器，MyBatis 的执行器总共有三种：
+  # SIMPLE：该执行器类型不做特殊的事情，为每个语句的执行创建一个新的预处理语句（PreparedStatement）
+  # REUSE：该执行器类型会复用预处理语句（PreparedStatement）
+  # BATCH：该执行器类型会批量执行所有的更新语句
+  executorType: SIMPLE
+  # 指定外部化 MyBatis Properties 配置，通过该配置可以抽离配置，实现不同环境的配置部署
+  configurationProperties: null
+  configuration:
+    # 自动驼峰命名规则（camel case）映射
+    # 如果您的数据库命名符合规则无需使用 @TableField 注解指定数据库字段名
+    mapUnderscoreToCamelCase: true
+    # 默认枚举处理类,如果配置了该属性,枚举将统一使用指定处理器进行处理
+    # org.apache.ibatis.type.EnumTypeHandler : 存储枚举的名称
+    # org.apache.ibatis.type.EnumOrdinalTypeHandler : 存储枚举的索引
+    # com.baomidou.mybatisplus.extension.handlers.MybatisEnumTypeHandler : 枚举类需要实现IEnum接口或字段标记@EnumValue注解
+    defaultEnumTypeHandler: org.apache.ibatis.type.EnumTypeHandler
+    # 当设置为 true 的时候，懒加载的对象可能被任何懒属性全部加载，否则，每个属性都按需加载。需要和 lazyLoadingEnabled 一起使用。
+    aggressiveLazyLoading: true
+    # MyBatis 自动映射策略
+    # NONE：不启用自动映射
+    # PARTIAL：只对非嵌套的 resultMap 进行自动映射
+    # FULL：对所有的 resultMap 都进行自动映射
+    autoMappingBehavior: PARTIAL
+    # MyBatis 自动映射时未知列或未知属性处理策
+    # NONE：不做任何处理 (默认值)
+    # WARNING：以日志的形式打印相关警告信息
+    # FAILING：当作映射失败处理，并抛出异常和详细信息
+    autoMappingUnknownColumnBehavior: NONE
+    # Mybatis一级缓存，默认为 SESSION
+    # SESSION session级别缓存，同一个session相同查询语句不会再次查询数据库
+    # STATEMENT 关闭一级缓存
+    localCacheScope: SESSION
+    # 开启Mybatis二级缓存，默认为 true
+    cacheEnabled: true
+  global-config:
+    # 是否打印 Logo banner
+    banner: true
+    # 是否初始化 SqlRunner
+    enableSqlRunner: false
+    dbConfig:
+      # 主键类型
+      # AUTO 数据库ID自增
+      # NONE 空
+      # INPUT 用户输入ID
+      # ASSIGN_ID 全局唯一ID
+      # ASSIGN_UUID 全局唯一ID UUID
+      idType: AUTO
+      # 表名前缀
+      tablePrefix: null
+      # 字段 format,例: %s,(对主键无效)
+      columnFormat: null
+      # 表名是否使用驼峰转下划线命名,只对表名生效
+      tableUnderline: true
+      # 大写命名,对表名和字段名均生效
+      capitalMode: false
+      # 全局的entity的逻辑删除字段属性名
+      logicDeleteField: null
+      # 逻辑已删除值
+      logicDeleteValue: 1
+      # 逻辑未删除值
+      logicNotDeleteValue: 0
+      # 字段验证策略之 insert,在 insert 的时候的字段验证策略
+      # IGNORED 忽略判断
+      # NOT_NULL 非NULL判断
+      # NOT_EMPTY 非空判断(只对字符串类型字段,其他类型字段依然为非NULL判断)
+      # DEFAULT 默认的,一般只用于注解里
+      # NEVER 不加入 SQL
+      insertStrategy: NOT_NULL
+      # 字段验证策略之 update,在 update 的时候的字段验证策略
+      updateStrategy: NOT_NULL
+      # 字段验证策略之 select,在 select 的时候的字段验证策略既 wrapper 根据内部 entity 生成的 where 条件
+      selectStrategy: NOT_NULL
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+#全局BASE终端配置
+flybirds:
+  user:
+    mysql: root
+    druid: admin
+  password:
+    mysql: 123456
+    druid: flybirds@123
+    redis: flybirds@123
+  ip:
+    nacos: 192.168.144.129
+    mysql: 192.168.144.129
+    redis: 192.168.144.129
+    host: localhost
+    seata: 192.168.144.129
+    fdfs: 192.168.144.129
+    minio: 192.168.144.129
+  info:
+    name: FBIRD 数字化
+    version: 1.0.1.version
+    base-package: com.flybirds
+    copyrightYear: 2021
+    profile: D:\home\ruoyi
+    addressEnabled: true
+  xss:
+    enable: false
+    exclude-urls: # 如下两个 url，仅仅是为了演示，去掉配置也没关系
+      - ${spring.boot.admin.context-path}/** # 不处理 Spring Boot Admin 的请求
+      - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
+  # 开启演示模式
+  demo: 
+    enable: false
+   
+# Swagger-ui 文档配置   
+swagger:
+  title: ${spring.application.name} 模块接口文档
+  license: Powered By flybirds
+  licenseUrl: https://io.flybirds.com
+  authorization:
+    name: flybirds-oauth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: web_service
+        description: 客户端认证系统服务
+    token-url-list:
+      - http://${flybirds.ip.host}:9903/oauth2/token/login
+ 
+# Springboot-Admin 暴露监控端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

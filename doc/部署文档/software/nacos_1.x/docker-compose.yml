@@ -1,0 +1,12 @@
+version : '3.8'
+services:
+  nacos:
+    container_name: docker_nacos_1.4.2
+    image: nacos/nacos-server:1.4.2
+    environment:
+      - MODE=standalone
+    volumes:
+      - ./logs/:/home/nacos/logs
+      - ./conf/application.properties:/home/nacos/conf/application.properties
+    ports:
+      - "8848:8848"

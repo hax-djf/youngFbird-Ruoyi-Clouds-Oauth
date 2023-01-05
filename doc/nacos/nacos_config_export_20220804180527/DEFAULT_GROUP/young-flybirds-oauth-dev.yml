@@ -1,7 +1,0 @@
-# feign调用超时时间配置
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 1000
-        readTimeout: 30000

@@ -1,0 +1,7 @@
+FROM nacos/nacos-server
+# author
+MAINTAINER flybirds
+
+# 复制conf文件到路径
+COPY ./conf/application.properties /home/nacos/conf/application.properties
+
